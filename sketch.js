@@ -17,11 +17,12 @@ function preload(){
 }
 
 function setup() {
-    createCanvas(screen.width, 400);
-    noStroke();
+    let canvas = createCanvas(screen.width , 400);
+    canvas.parent('sketch');
+    noStroke(); 
     background("#FDFBF5");
     frameRate(1);
-    fill("#FFD95C");
+    fill("c");
     var space_between_chart = 50;
     var rect_width = 35;
     var x = (screen.width)/2 - ((table.getRowCount()/2) * (space_between_chart) - (space_between_chart - rect_width)/2);
