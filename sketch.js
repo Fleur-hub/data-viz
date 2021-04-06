@@ -2,7 +2,9 @@ let tablesYear;
 let tablesMonth;
 let table;
 let yearCount = 0;
-let channel = 0;
+let channel = -1;
+let space_between_chart = 50;
+let rect_width = 35;
 
 function preload(){
     table = loadTable('data/year/global_year.csv', 'csv', 'header');
@@ -19,37 +21,31 @@ function preload(){
 function setup() {
     let canvas = createCanvas(screen.width , 400);
     canvas.parent('sketch');
-    noStroke(); 
-    background("#FDFBF5");
-    frameRate(1);
-    fill("c");
-    var space_between_chart = 50;
-    var rect_width = 35;
-    var x = (screen.width)/2 - ((table.getRowCount()/2) * (space_between_chart) - (space_between_chart - rect_width)/2);
-    var y = 100;
+    noStroke();
+}
 
-    var i = 0;
-    for(; i < table.getRowCount(); ++i){
-        fill("#FFD95C");
-        rect(x + space_between_chart*i, y + 15, rect_width, (table.getRow(i).get('male_duration'))/10 - 50);
-        fill("#25696B");
-        rect(x + space_between_chart*i, y, rect_width, -(table.getRow(i).get('female_duration'))/10 + 50);
-    }
+function drawGlobal(){
+	var y = 100;
+	let x = (screen.width)/2 - ((table.getRowCount()/2) * (space_between_chart) - (space_between_chart - rect_width)/2);
+	var i = 0;
+	for(; i < table.getRowCount(); ++i){
+		fill("#FFD95C");
+		rect(x + space_between_chart*i, y + 15, rect_width, (table.getRow(i).get('male_duration'))/10 - 50);
+		fill("#25696B");
+		rect(x + space_between_chart*i, y, rect_width, -(table.getRow(i).get('female_duration'))/10 + 50);
+	}
 
-    legends(x, 300);
-    sideLegends(x, y, space_between_chart*i);
-
+	legends(x, 300);
+	sideLegends(x, y, space_between_chart*i);
 }
 
 function drawChart(table, year){
-    fill("#FFD95C");
-    var space_between_chart = 50;
-    var rect_width = 35;
-    var x = (screen.width)/2 - ((table.getRowCount()/2) * (space_between_chart) - (space_between_chart - rect_width)/2);
     var y = 100;
-
+    const month = 12;
+	let x = (screen.width)/2 - ((month/2) * (space_between_chart) - (space_between_chart - rect_width)/2);
     var i = 0;
     for(; i < 12; ++i){
+    	console.log("here");
         fill("#FFD95C");
         rect(x + space_between_chart*i, y + 15, rect_width, (table.getRow(i + (year * 12)).get('male_duration'))/10 - 50);
         fill("#25696B");
@@ -60,7 +56,24 @@ function drawChart(table, year){
     sideLegends(x, y, space_between_chart*i);
 }
 
-function sideLegends(x, y, size){
+function drawDotGraph(table, year){
+    var y = 100;
+    const month = 12;
+	let x = (screen.width)/2 - ((month/2) * (space_between_chart) - (space_between_chart - rect_width)/2);
+    var i = 0;
+    for(; i < 12; ++i){
+    	console.log("here");
+        fill("#FFD95C");
+        rect(x + space_between_chart*i, y + 15, rect_width, (table.getRow(i + (year * 12)).get('male_duration'))/10 - 50);
+        fill("#25696B");
+        rect(x + space_between_chart*i, y, rect_width, -(table.getRow(i + (year * 12)).get('female_duration'))/10 + 50);
+    }
+
+    legends(x, 300);
+    sideLegends(x, y, space_between_chart*i);
+}
+
+function sideLegends(x, y, size, dateFirst, dateLast){
     fill("#313033")
     var txtY = y + 15;
     textSize(18);
@@ -79,13 +92,22 @@ function legends(x, y){
     text('Hommes', x + 30, y + 45);
 }
 
-function draw() {
-   /* drawChart(tablesMonth[channel], yearCount);
-    yearCount++;
-    if(yearCount >= 10){
-        channel++;
-    }
-    if(channel >= tablesMonth.length){
-        noLoop();
-    }*/
+function changeChannel(newChannel){
+	channel = newChannel;
+	table = loadTable('data/month/'.concat(newChannel).concat(".csv"), 'csv', 'header', loop);
+
 }
+
+function draw() {
+	background("#FDFBF5");
+	if(channel == -1){
+		console.log("glob")
+		drawGlobal();
+	}
+	else{
+		console.log(channel);
+		drawChart(table, 0);
+	}
+    noLoop();
+}
+
