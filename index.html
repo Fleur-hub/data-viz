@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="splide-2.4.21/dist/css/splide.min.css">
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +9,211 @@
     <title>Document</title>
 </head>
 <body>
+
+         <!-- SLIDER HTML HERE -->
+
+    <div class="container">
+        <div class="slider">
+            <div class="splide">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/tf1_logo.png" onclick="changeChannel('TF1')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/france2_logo.png" onclick="changeChannel('France 2')" class='chaine-resize' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/france3_logo.png" onclick="changeChannel('France 3')" class='chaine-resize' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/canal_logo.png" onclick="changeChannel('Canal+')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/canalsport_logo.png" onclick="changeChannel('Canal+ Sport')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/france5_logo.png" onclick="changeChannel('France 5')" class='chaine-resize' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/m6_logo.png" onclick="changeChannel('M6')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/arte_logo.png" onclick="changeChannel('ARTE')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/c8_logo.png" onclick="changeChannel('D8C8')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/w9_logo.png" onclick="changeChannel('W9')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/tmc_logo.png" onclick="changeChannel('Monte Carlo TMC')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/nrj12_logo.png" onclick="changeChannel('NRJ 12')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/lcp_logo.png" onclick="changeChannel('LCPPublic Sénat')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/bfmtv_logo.png" onclick="changeChannel('BFM TV')" class='chaine-resize' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/cnews_logo.png" onclick="changeChannel('I-TéléCNews')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/franceo_logo.png" onclick="changeChannel('France O')" class='chaine-resize' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/equipe_logo.png" onclick="changeChannel('L'Equipe 21')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/cherie25_logo.png" onclick="changeChannel('Chérie 25')" class='chaine' alt="">
+                            </div>
+                        </li><li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/lci_logo.png" onclick="changeChannel('LCI')" class='chaine' alt="">
+                            </div>
+                        </li>
+
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/animaux_logo.png" onclick="changeChannel('Animaux')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/chassepeche_logo.png" onclick="changeChannel('Chasse et pêche')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/chainemeteo_logo.png" onclick="changeChannel('La chaîne Météo')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/comedie_logo.png" onclick="changeChannel('Comédie+')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/euronews_logo.png" onclick="changeChannel('Euronews')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/eurosport_logo.png" onclick="changeChannel('Eurosport France')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/france24_logo.png" onclick="changeChannel('France 24')" class='chaine-resize' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/histoire_logo.png" onclick="changeChannel('Histoire')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/parispremiere_logo.png" onclick="changeChannel('Paris Première')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/planete_logo.png" onclick="changeChannel('Planète+')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/teva_logo.png" onclick="changeChannel('Téva')" class='chaine-resize' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/toutelhistoire_logo.png" onclick="changeChannel('Toute l'Histoire')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/tv5monde_logo.png" onclick="changeChannel('TV5 Monde')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/tvbreizh_logo.png" onclick="changeChannel('TV Breizh')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="slide-chaine">
+                                <input type="image" src="img/voyage_logo.png" onclick="changeChannel('Voyage')" class='chaine' alt="">
+                            </div>
+                        </li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="sketch"></div>
+    </div>
+
+    <script src="splide-2.4.21/dist/js/splide.min.js"></script>
+    <script>
+        new Splide( '.splide', {
+            pagination: false,
+            direction: 'ttb',
+            type   : 'loop',
+            padding: {
+                top: '8rem',
+                bottom : '8rem',
+	        },
+            height:'400px',
+        } ).mount();
+    </script>
+    <script src="./dataframe-js/dist/dataframe.js"></script>
+    <script type="module" src="script.js"></script>
+    <script src="./p5/p5.js"></script>
+    <script src="sketch.js"></script>
     
-    <script src="script.js"></script>
+    
 </body>
 </html>
