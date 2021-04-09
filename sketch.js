@@ -3,7 +3,7 @@ let tablesMonth;
 let table;
 let yearCount = 0;
 let channel = -1;
-let anim_count = 0;
+let anim_count = 1;
 let anim_speed = 100;
 let anim_Vectors = []
 let space_between_chart = 50;
@@ -217,36 +217,56 @@ function computeAnimVectors(circles){
 	let vectors = [];
 	let fMerge = new Point(350, 200);
 	let mMerge = new Point(750, 200);
+	let mSumCircle = new MyCircle(mMerge.x, mMerge.y, 0, 'ms');
+	let fSumCircle = new MyCircle(fMerge.x, fMerge.y, 0, 'fs');
 	for(let i = 0; i < circles.length; ++i){
 		if(circles[i].g == 'f'){
 			vectors.push([circles[i], Vector.vectorOf(circles[i].point, fMerge)]);
+			fSumCircle.r +=  circles[i].r;
 		}
 		else{
 			vectors.push([circles[i], Vector.vectorOf(circles[i].point, mMerge)]);
+			mSumCircle.r += circles[i].r;
 		}
 	}
+	vectors.push([mSumCircle, new Vector(0, 0, 1)]);
+	vectors.push([fSumCircle, new Vector(0, 0, 1)]);
 	anim_Vectors = vectors;
 	return vectors;
+}
+
+function getBaseLog(x, y) {
+	return Math.log(y) / Math.log(x);
 }
 
 function animateCircles(){
 	let circ;
 	let vec;
+	let r;
 	for(let i = 0; i < anim_Vectors.length; ++i){
 		circ = anim_Vectors[i][0];
 		vec = anim_Vectors[i][1];
+		console.log(circ);
+		r = circ.r;
 		circ.point.applyVector(vec);
-		fill(male_color);
-		if(circ.g == 'f'){
+		if(circ.g.startsWith('m'))
+			fill(male_color);
+		else{
 			fill(female_color);
 		}
-		circle(circ.point.x, circ.point.y, circ.r);
+		if(circ.g.endsWith('s')){
+			r = (r* (anim_count/anim_speed)) / 2;
+		}
+		else{
+			r = r / getBaseLog(5,anim_count + 5);
+		}
+		circle(circ.point.x, circ.point.y, r);
 	}
 }
 
 function reset(){
 	anim_Vectors = [];
-	anim_count = 0;
+	anim_count = 1;
 }
 
 function draw() {
