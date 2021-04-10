@@ -70,7 +70,11 @@ body{
     text-align: center;
     margin-left:250px;
     margin-right:250px;
-    margin-bottom:120px;
+    margin-bottom:40px;
+}
+
+.ancre{
+    cursor:pointer;
 }
 
 .graph-title{
@@ -146,7 +150,7 @@ body{
 }
 
 .chaine{
-    width:40%;
+    width:50%;
 }
 
 .chaine-resize{
@@ -159,6 +163,12 @@ body{
     display:flex;
     justify-content: center;
     align-items: center;
+    filter: grayscale(100%);
+    opacity:0.75;
+
 }
 
-
+.is-active > .slide-chaine{
+    filter: grayscale(0%);
+    opacity:1;
+}
