@@ -146,13 +146,37 @@ function legends(x, y){
     text('Hommes', x + 30, y + 45);
 }
 
-const channels = ['TF1','France 2','France 3', 'Canal+', 'Canal+ Sport','France 5','M6','ARTE','D8C8','W9','Monte Carlo TMC','NRJ 12','LCPPublic Sénat', 'BFM TV', 'I-TéléCNews', 'France O', 'L \'Equipe 21','Chérie 25','LCI','Animaux','Chasse et pêche', 'La chaîne Météo', 'Comédie+','Euronews','Eurosport France','France 24','Histoire','Paris Première','Planète+','Téva','Toute l\'Histoire','TV5 Monde','TV Breizh','Voyage'];
-
-
-function changeChannel(newChannel){
+async function changeChannel(newChannel){
 	channel = newChannel;
 	table = loadTable('data/month/'.concat(newChannel).concat(".csv"), 'csv', 'header', loop);
 }
+
+let channelsIndex = 0
+
+const channels = ['TF1','France 2','France 3', 'Canal+', 'Canal+ Sport','France 5','M6','ARTE','D8C8','W9','Monte Carlo TMC','NRJ 12','LCPPublic Sénat', 'BFM TV', 'I-TéléCNews', 'France O', 'L \'Equipe 21','Chérie 25','LCI','Animaux','Chasse et pêche', 'La chaîne Météo', 'Comédie+','Euronews','Eurosport France','France 24','Histoire','Paris Première','Planète+','Téva','Toute l\'Histoire','TV5 Monde','TV Breizh','Voyage'];
+
+const arrowPrev = document.querySelector('.arrow-prev');
+const arrowNext = document.querySelector('.arrow-next');
+
+const changeIndex=(operator)=>{
+	if(channelsIndex>channels.length){
+		channelsIndex=0;
+	}else{
+		channelsIndex = channelsIndex+operator ;
+
+	}
+	changeChannel(channels[channelsIndex])
+	console.log('doudou cest le plus gentil');
+	console.log('log',channelsIndex);
+	console.log('log',channels[channelsIndex]);
+
+
+
+};
+
+arrowPrev.addEventListener('click',()=>changeIndex(-1));
+arrowNext.addEventListener('click',()=>changeIndex(1));
+
 
 function listDurationOfYear(table, year){
     let duration = [[],[]];
@@ -271,7 +295,7 @@ function reset(){
 	anim_count = 1;
 }
 
-function draw() {
+async function draw() {
 	background("#FDFBF5");
 	if(channel == -1){
 		drawGlobal();
