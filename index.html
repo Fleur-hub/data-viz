@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://use.typekit.net/nci8kjb.css">
     <link rel="stylesheet" href="splide-2.4.21/dist/css/splide.min.css">
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
@@ -10,8 +11,24 @@
 </head>
 <body>
 
-         <!-- SLIDER HTML HERE -->
+<section class='section'>
 
+
+    <div class="header">
+        <div class="logo"><img src="img/logoThePinch.png" alt=""></div>
+        <div class="datadesign"><p>Data Design</p></div>
+    </div>
+
+    <div class="intro">
+        <div class="date"><p>De 1995 à 2019</p></div>
+        <div class="title"><p>Temps de parole à la télévision</p></div>
+        <div class="text"><p>Lorem ipsum dolor sit amemqqt, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+       
+    </div>
+</section>
+
+<section class='section'>
+    <div class="graph-title"><p>Temps de paroles des hommes et des femmes par chaîne de 1995 à  2019</p></div>
     <div class="container">
         <div class="slider">
             <div class="splide">
@@ -195,6 +212,8 @@
         </div>
         <div id="sketch"></div>
     </div>
+</section>
+
 
     <script src="splide-2.4.21/dist/js/splide.min.js"></script>
     <script>
@@ -207,6 +226,12 @@
                 bottom : '8rem',
 	        },
             height:'400px',
+            classes: {
+                arrows: 'splide__arrows arrows',
+                arrow : 'splide__arrow arrow',
+                prev  : 'splide__arrow--prev arrow-prev',
+                next  : 'splide__arrow--next arrow-next',
+	},
         } ).mount();
     </script>
     <script src="./dataframe-js/dist/dataframe.js"></script>

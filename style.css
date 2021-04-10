@@ -1,3 +1,13 @@
+@font-face {
+    font-family: bebasneue;
+    src: url(font/BebasNeue-Regular.ttf);
+}
+
+@font-face {
+    font-family: geomanist;
+    src: url(font/Geomanist-Regular.ttf);
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -5,6 +15,65 @@
 
 body{
     background-color: #FDFBF5 ;
+    overflow-x:hidden;
+}
+
+.section{
+    height: 100vh;
+}
+
+.header{
+    display:flex;
+    justify-content: space-between;
+}
+
+.header .logo img{
+    width:170px;
+}
+
+.intro{
+
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+}
+
+.date p{
+    font-family: brandon-grotesque, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color:#A7A5AB;
+    font-size:36px;
+    text-transform: uppercase;
+}
+
+.title{
+    margin-bottom:32px;
+}
+.title p{
+    font-family:bebasneue, sans-serif;
+    font-weight:500;
+    color:#19191A;
+    font-size:90px;
+}
+
+.text p{
+    font-family: brandon-grotesque, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color:#A7A5AB;
+    font-size:24px;
+    text-align: center;
+    margin-bottom:120px;
+}
+
+.graph-title p{
+    font-family: brandon-grotesque, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    color:#D3545A;
+    font-size:32px;
 }
 
 .container{
@@ -13,12 +82,47 @@ body{
     width:100vw;
 }
 
+.datadesign{
+    margin-right: 45px;
+    margin-top: 20px;
+}
+
+.datadesign p{
+    font-family: brandon-grotesque, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size:14px;
+    color:#57565A;
+    text-transform: uppercase;
+
+}
+
 .slider{
     position:absolute;
     top:0;
     left:0;
     bottom:0;
     width:300px;
+    border-left: #E2E2E2 solid 1px;
+    border-right: #E2E2E2 solid 1px;
+    margin-left: 30px;
+}
+.arrow {
+    background-color: #FFFDF8;
+    opacity: 1;
+    width:100%;
+    height:50px;
+    border-top: #E2E2E2 solid 2px;
+    border-bottom: #E2E2E2 solid 2px;
+    border-radius: 0%;
+}
+
+.arrow-prev{
+    top:0 !important;
+}
+
+.arrow-next{
+    bottom:0 !important;
 }
 
 #sketch{
