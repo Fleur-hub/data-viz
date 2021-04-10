@@ -118,7 +118,7 @@ body{
     top:0;
     left:0;
     bottom:0;
-    width:250px;
+    width:200px;
     border-left: #E2E2E2 solid 1px;
     border-right: #E2E2E2 solid 1px;
     margin-left: 30px;
@@ -154,7 +154,7 @@ body{
 }
 
 .slide-chaine{
-    width:250px;
+    width:200px;
     height:100%;
     display:flex;
     justify-content: center;
