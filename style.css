@@ -23,6 +23,9 @@ body{
 }
 
 .header{
+    position:fixed;
+    top:0;
+    width:100%;
     display:flex;
     justify-content: space-between;
 }
@@ -32,11 +35,11 @@ body{
 }
 
 .intro{
-
     display:flex;
     flex-direction:column;
     justify-content: center;
     align-items: center;
+    margin-top: 150px;
 }
 
 .date p{
@@ -84,8 +87,8 @@ body{
     font-style: normal;
     color:#D3545A;
     font-size:32px;
-    padding-top:80px;
-    padding-bottom : 50px;
+    padding-top:120px;
+    padding-bottom : 30px;
 }
 
 
