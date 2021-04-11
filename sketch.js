@@ -1,10 +1,17 @@
 let tablesYear;
 let tablesMonth;
 let table;
+let glob_table;
 let yearCount = 0;
 let channel = -1;
 let anim_count = 1;
 let anim_speed = 100;
+let anim_delay_spent = 0;
+let anim_delay_before_start = 80;
+let endAnim_count = 0;
+let endAnim_speed = 100;
+let endAnim_delay_spent = 0;
+let endAnim_delay_before_start = 80;
 let anim_Vectors = []
 let space_between_chart = 50;
 let rect_width = 35;
@@ -62,117 +69,84 @@ class Point {
 }
 
 function preload(){
-    table = loadTable('data/year/global_year.csv', 'csv', 'header');
-    /*tablesMonth = [];
-    tablesYear = [];
-    files.forEach(function(item,index){
-        tablesMonth.push(loadTable(item, 'csv', 'header'));
-    });
-
-    console.log(tablesMonth.length);
-    */
+    glob_table = loadTable('data/year/global_year.csv', 'csv', 'header');
 }
 
 function setup() {
+	let glob = function(p){
+		p.preload = function(){
+		}
+		p.setup = function(){
+			p.createCanvas(screen.width, 400);
+			p.background("#FDFBF5");
+			p.noStroke();
+			drawGlobal(p, glob_table);
+		}
+	};
+	new p5(glob, 'GLOBAL_GRAPH');
     let canvas = createCanvas(screen.width , 400);
     canvas.parent('sketch');
-    frameRate(25);
+    frameRate(40);
     noStroke();
+    changeChannel('TF1');
 }
 
-function drawGlobal(){
+function drawGlobal(p){
 	let y = 100;
-	let x = (screen.width)/2 - ((table.getRowCount()/2) * (space_between_chart) - (space_between_chart - rect_width)/2);
+	let x = (screen.width)/2 - ((glob_table.getRowCount()/2) * (space_between_chart) - (space_between_chart - rect_width)/2);
 	let i = 0;
-	for(; i < table.getRowCount(); ++i){
-		fill(male_color);
-		rect(x + space_between_chart*i, y + 15, rect_width, (table.getRow(i).get('male_duration'))/10 - 50);
-		fill(female_color);
-		rect(x + space_between_chart*i, y, rect_width, -(table.getRow(i).get('female_duration'))/10 + 50);
+	for(; i < glob_table.getRowCount(); ++i){
+		p.fill(male_color);
+		p.rect(x + space_between_chart*i, y + 15, rect_width, (glob_table.getRow(i).get('male_duration'))/10 - 50);
+		p.fill(female_color);
+		p.rect(x + space_between_chart*i, y, rect_width, -(glob_table.getRow(i).get('female_duration'))/10 + 50);
 	}
 
-	legends(x, 300);
-	sideLegends(x, y, space_between_chart*i);
+	legends(x, 300, p);
+	sideLegends(x, y, space_between_chart*i, p);
 }
 
-function drawChart(table, year){
-    let y = 100;
-    const month = 12;
-	let x = (screen.width)/2 - ((month/2) * (space_between_chart) - (space_between_chart - rect_width)/2);
-    let i = 0;
-    for(; i < 12; ++i){
-    	fill(male_color);
-        rect(x + space_between_chart*i, y + 15, rect_width, (table.getRow(i + (year * 12)).get('male_duration'))/10 - 50);
-        fill(female_color);
-        rect(x + space_between_chart*i, y, rect_width, -(table.getRow(i + (year * 12)).get('female_duration'))/10 + 50);
-    }
-
-    legends(x, 300);
-    sideLegends(x, y, space_between_chart*i);
-}
-
-function drawDotGraph(table, year){
-    let y = 100;
-    const month = 12;
-	let x = (screen.width)/2 - ((month/2) * (space_between_chart) - (space_between_chart - rect_width)/2);
-    let i = 0;
-    for(; i < 12; ++i){
-    	fill(male_color);
-        rect(x + space_between_chart*i, y + 15, rect_width, (table.getRow(i + (year * 12)).get('male_duration'))/10 - 50);
-        fill(female_color);
-        rect(x + space_between_chart*i, y, rect_width, -(table.getRow(i + (year * 12)).get('female_duration'))/10 + 50);
-    }
-
-    legends(x, 300);
-    sideLegends(x, y, space_between_chart*i);
-}
-
-function sideLegends(x, y, size, dateFirst, dateLast){
-    fill("#313033")
+function sideLegends(x, y, size, p, dateFirst, dateLast){
+    p.fill("#313033")
     let txtY = y + 15;
-    textSize(18);
-    text('2010', x - 60, txtY);
-    text('2019', x + size + 5, txtY);
+    p.textSize(18);
+    p.text('2010', x - 60, txtY);
+    p.text('2019', x + size + 5, txtY);
 }
 
-function legends(x, y){
-	fill(female_color);
-    square(x, y, 20);
-	fill(male_color);
-    square(x, y + 30, 20);
-    fill("#313033")
-    textSize(15);
-    text('Femmes', x + 30, y + 15);
-    text('Hommes', x + 30, y + 45);
+function legends(x, y, p){
+	p.fill(female_color);
+    p.square(x, y, 20);
+	p.fill(male_color);
+	p.square(x, y + 30, 20);
+	p.fill("#313033")
+	p.textSize(15);
+	p.text('Femmes', x + 30, y + 15);
+	p.text('Hommes', x + 30, y + 45);
 }
 
 async function changeChannel(newChannel){
 	channel = newChannel;
-	table = loadTable('data/month/'.concat(newChannel).concat(".csv"), 'csv', 'header', loop);
+	table = loadTable('data/month/'.concat(newChannel).concat(".csv"), 'csv', 'header', ()=>{background("#FDFBF5");reset();loop();});
 }
+
+Number.prototype.mod = function(n) {
+	var m = (( this % n) + n) % n;
+	return m < 0 ? m + Math.abs(n) : m;
+};
 
 let channelsIndex = 0
 
-const channels = ['TF1','France 2','France 3', 'Canal+', 'Canal+ Sport','France 5','M6','ARTE','D8C8','W9','Monte Carlo TMC','NRJ 12','LCPPublic Sénat', 'BFM TV', 'I-TéléCNews', 'France O', 'L \'Equipe 21','Chérie 25','LCI','Animaux','Chasse et pêche', 'La chaîne Météo', 'Comédie+','Euronews','Eurosport France','France 24','Histoire','Paris Première','Planète+','Téva','Toute l\'Histoire','TV5 Monde','TV Breizh','Voyage'];
+const channels = ['TF1','France 2','France 3', 'Canal+', 'Canal+ Sport','France 5','M6','ARTE','D8C8','W9','Monte Carlo TMC','NRJ 12','LCPPublic Sénat', 'BFM TV', 'I-TéléCNews', 'France O', "L\'Equipe 21",'Chérie 25','LCI','Animaux','Chasse et pêche', 'La chaîne Météo', 'Comédie+','Euronews','Eurosport France','France 24','Histoire','Paris Première','Planète+','Téva','Toute l\'Histoire','TV5 Monde','TV Breizh','Voyage'];
 
 const arrowPrev = document.querySelector('.arrow-prev');
 const arrowNext = document.querySelector('.arrow-next');
 
-const changeIndex=(operator)=>{
-	if(channelsIndex>channels.length){
-		channelsIndex=0;
-	}else{
-		channelsIndex = channelsIndex+operator ;
-
-	}
-	changeChannel(channels[channelsIndex])
-	console.log('doudou cest le plus gentil');
-	console.log('log',channelsIndex);
-	console.log('log',channels[channelsIndex]);
-
-
-
-};
+function changeIndex(operator){
+	channelsIndex += operator;
+	channelsIndex = channelsIndex.mod(channels.length);
+	changeChannel(channels[channelsIndex]);
+}
 
 arrowPrev.addEventListener('click',()=>changeIndex(-1));
 arrowNext.addEventListener('click',()=>changeIndex(1));
@@ -241,8 +215,8 @@ function drawMonthGraph(table, year) {
 
 function computeAnimVectors(circles){
 	let vectors = [];
-	let fMerge = new Point(350, 200);
-	let mMerge = new Point(750, 200);
+	let fMerge = new Point(2*screen.width/5, 200);
+	let mMerge = new Point(2*screen.width/3, 200);
 	let mSumCircle = new MyCircle(mMerge.x, mMerge.y, 0, 'ms');
 	let fSumCircle = new MyCircle(fMerge.x, fMerge.y, 0, 'fs');
 	for(let i = 0; i < circles.length; ++i){
@@ -272,7 +246,7 @@ function animateCircles(){
 	for(let i = 0; i < anim_Vectors.length; ++i){
 		circ = anim_Vectors[i][0];
 		vec = anim_Vectors[i][1];
-		console.log(circ);
+		//console.log(circ);
 		r = circ.r;
 		circ.point.applyVector(vec);
 		if(circ.g.startsWith('m'))
@@ -290,26 +264,49 @@ function animateCircles(){
 	}
 }
 
+function computeEndAnimVec(){
+	let center = new Point(screen.width/2, 200);
+	for(let i = 0; i < anim_Vectors.length; ++i){
+		anim_Vectors[i][1] = Vector.vectorOf(anim_Vectors[i][0].point, center);
+	}
+}
+
 function reset(){
+	endAnim_count = 0;
+	endAnim_delay_spent = 0;
+	anim_delay_spent = 0;
 	anim_Vectors = [];
 	anim_count = 1;
 }
 
 async function draw() {
-	background("#FDFBF5");
-	if(channel == -1){
-		drawGlobal();
-		noLoop();
-		return;
-	}
 	if(anim_Vectors.length == 0){
 		let circles = drawMonthGraph(table, 1);
 		computeAnimVectors(circles);
 	}
-	animateCircles();
-	anim_count += 1;
-	if(anim_count == 100) {
-		reset();
-		noLoop();
+	if(anim_delay_spent < anim_delay_before_start){
+		anim_delay_spent += 1;
+		return;
+	}
+	if(anim_count < anim_speed) {
+		anim_count += 1;
+		background("#FDFBF5");
+		animateCircles();
+	}
+	else{
+		if(endAnim_delay_spent == 0){
+			computeEndAnimVec();
+		}
+		if(endAnim_delay_spent < endAnim_delay_before_start){
+			endAnim_delay_spent += 1;
+			return;
+		}
+		background("#FDFBF5");
+		animateCircles();
+		endAnim_count += 1;
+		if(endAnim_count == endAnim_speed){
+			reset();
+			noLoop();
+		}
 	}
 }
