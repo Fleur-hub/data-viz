@@ -42,6 +42,7 @@ body{
 
 .header{
     position:fixed;
+    z-index:100;
     top:0;
     width:100%;
     display:flex;
@@ -49,7 +50,22 @@ body{
 }
 
 .header .logo img{
-    width:170px;
+    width:140px;
+}
+
+.datadesign{
+    margin-right: 45px;
+    margin-top: 20px;
+}
+
+.datadesign p{
+    font-family: brandon-grotesque, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size:12px;
+    color:#57565A;
+    text-transform: uppercase;
+
 }
 
 .intro{
@@ -57,7 +73,7 @@ body{
     flex-direction:column;
     justify-content: center;
     align-items: center;
-    padding-top: 150px;
+    padding-top: 120px;
 }
 
 .date p{
@@ -88,11 +104,24 @@ body{
     text-align: center;
     margin-left:250px;
     margin-right:250px;
-    margin-bottom:40px;
+    margin-bottom:32px;
 }
 
+strong{
+    color : #646267;
+    font-weight: 550;
+}
+
+.woman{
+    color:#FFD95C;
+}
+
+.man{
+    color: #25696B;
+}
 .ancre{
     cursor:pointer;
+    scroll-behavior: smooth;
 }
 
 .graph-title{
@@ -110,7 +139,6 @@ body{
     color:#D3545A;
     font-size:32px;
     padding-top:120px;
-    padding-bottom : 30px;
 }
 
 
@@ -120,20 +148,24 @@ body{
     width:100vw;
 }
 
-.datadesign{
-    margin-right: 45px;
-    margin-top: 20px;
+.explanation{
+    margin-bottom:20px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding-top:80px;
+    padding-left:140px;
 }
-
-.datadesign p{
+.explanation p{
     font-family: brandon-grotesque, sans-serif;
-    font-weight: 500;
+    font-weight: 400;
     font-style: normal;
-    font-size:14px;
     color:#57565A;
-    text-transform: uppercase;
-
+    font-size:20px;
+    text-align: left;
+    width:75%;
 }
+
 
 .slider{
     position:absolute;

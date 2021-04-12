@@ -106,10 +106,14 @@ function drawGlobal(p){
 	sideLegends(x, y, space_between_chart*i, p);
 }
 
+
+
 function sideLegends(x, y, size, p, dateFirst, dateLast){
     p.fill("#313033")
     let txtY = y + 15;
-    p.textSize(18);
+    p.textSize(20);
+	p.textFont("brandon-grotesque")
+	p.textStyle(BOLD)
     p.text('2010', x - 60, txtY);
     p.text('2019', x + size + 5, txtY);
 }
@@ -120,7 +124,8 @@ function legends(x, y, p){
 	p.fill(male_color);
 	p.square(x, y + 30, 20);
 	p.fill("#313033")
-	p.textSize(15);
+	p.textSize(16);
+	p.textFont("brandon-grotesque")
 	p.text('Femmes', x + 30, y + 15);
 	p.text('Hommes', x + 30, y + 45);
 }
