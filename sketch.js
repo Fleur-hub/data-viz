@@ -186,7 +186,7 @@ function generateCircleCoordinate(circles, durationLst, gender, constraint){
 			for (let i = 0; i < circles.length; i++) {
 				let existing = circles[i];
 				let d = dist(myCircle.x, myCircle.y, existing.x, existing.y)
-				if (d < myCircle.r + existing.r) {
+				if (d < myCircle.r + existing.r + 20) {
 					// They are overlapping
 					overlapping = true;
 					// do not add to array
@@ -211,12 +211,18 @@ function drawMonthGraph(table, year) {
 	circles = generateCircleCoordinate(circles, durationLst[1], 'f', constraint);
     // circles array is complete
     // draw canvas once
+	let color;
     for (let i = 0; i < circles.length; i++) {
-	    fill(male_color);
+	    color = male_color
 	    if(circles[i].g == 'f') {
-		    fill(female_color);
+		    color = female_color;
 	    }
-	    ellipse(circles[i].x, circles[i].y, circles[i].r*2, circles[i].r*2);
+	    fill(255, 255, 255);
+	    stroke(color);
+	    circle(circles[i].x, circles[i].y, circles[i].r*2 + 10);
+	    fill(color);
+	    circle(circles[i].x, circles[i].y, circles[i].r*2);
+
     }
     return circles;
 }
@@ -245,6 +251,8 @@ function computeAnimVectors(circles){
 	vectors.push([fSumCircle, new Vector(0, 0, 1)]);
 	fMergeCircle = fSumCircle;
 	mMergeCircle = mSumCircle;
+	fMergeCircle.r = fMergeCircle.r / 2;
+	mMergeCircle.r = mMergeCircle.r / 2;
 	anim_Vectors = vectors;
 	return vectors;
 }
@@ -257,23 +265,32 @@ function animateCircles(){
 	let circ;
 	let vec;
 	let r;
-	for(let i = 0; i < anim_Vectors.length; ++i){
+	let over_r;
+	let color;
+	for(let i = anim_Vectors.length - 1; i >= 0; --i){
 		circ = anim_Vectors[i][0];
 		vec = anim_Vectors[i][1];
 		//console.log(circ);
 		r = circ.r;
 		circ.point.applyVector(vec);
 		if(circ.g.startsWith('m'))
-			fill(male_color);
+			color = male_color;
 		else{
-			fill(female_color);
+			color = female_color;
 		}
 		if(circ.g.endsWith('s')){
-			r = (r* (anim_count/anim_speed)) / 2;
+			over_r = r;
+			r = r* (anim_count/anim_speed);
 		}
 		else{
-			r = r / getBaseLog(5,anim_count + 5);
+			r = 2 * r / getBaseLog(5,anim_count + 5);
+			over_r = r;
 		}
+		fill(255, 255, 255);
+		stroke(color);
+		circle(circ.point.x, circ.point.y, over_r + 10);
+		noStroke();
+		fill(color);
 		circle(circ.point.x, circ.point.y, r);
 	}
 }
@@ -294,24 +311,30 @@ function reset(){
 }
 
 function mouseOverLegends(){
-	textSize(35);
+	let txtSize = 35;
+	textSize(txtSize);
 	textFont("brandon-grotesque");
 	textStyle(BOLD);
 	let space = 50;
-	fill(female_color);
-	let percentageOfSpeak = 100 * fMergeCircle.r / (fMergeCircle.r + mMergeCircle.r);
-	strokeWeight(1);
-	stroke(female_color);
-	line(mMergeCircle.point.x, mMergeCircle.point.y, mMergeCircle.point.x + mMergeCircle.r/4 + space, mMergeCircle.point.y);
-	noStroke();
-	text(percentageOfSpeak.toFixed(2).toString() + " %", mMergeCircle.point.x + mMergeCircle.r/4 + space, mMergeCircle.point.y);
-	fill(male_color);
-	percentageOfSpeak = 100 * mMergeCircle.r / (fMergeCircle.r + mMergeCircle.r);
-	strokeWeight(1);
-	stroke(male_color);
-	line(mMergeCircle.point.x,mMergeCircle.point.y - mMergeCircle.r/4 + 5, mMergeCircle.point.x + mMergeCircle.r/3 + space * 2, mMergeCircle.point.y - mMergeCircle.r/4 + 5);
-	noStroke();
-	text(percentageOfSpeak.toFixed(2).toString() + " %", mMergeCircle.point.x + mMergeCircle.r/3 + space * 2, mMergeCircle.point.y - mMergeCircle.r/4 + 5);
+	if(dist(mouseX, mouseY, fMergeCircle.point.x, fMergeCircle.point.y) < fMergeCircle.r/2 ) {
+		fill("#424044");
+		let percentageOfSpeak = 100 * fMergeCircle.r / (fMergeCircle.r + mMergeCircle.r);
+		strokeWeight(1);
+		stroke("#424044");
+		line(mMergeCircle.point.x, mMergeCircle.point.y, mMergeCircle.point.x + mMergeCircle.r / 2 + space, mMergeCircle.point.y);
+		noStroke();
+		text(percentageOfSpeak.toFixed(2).toString() + " %", mMergeCircle.point.x + mMergeCircle.r / 2 + space + 20, mMergeCircle.point.y + txtSize/3);
+		return;
+	}
+	if(dist(mouseX, mouseY, mMergeCircle.point.x, mMergeCircle.point.y) < mMergeCircle.r/2) {
+		fill("#424044");
+		percentageOfSpeak = 100 * mMergeCircle.r / (fMergeCircle.r + mMergeCircle.r);
+		strokeWeight(1);
+		stroke("#424044");
+		line(mMergeCircle.point.x, mMergeCircle.point.y - mMergeCircle.r / 2 + 5, mMergeCircle.point.x + mMergeCircle.r / 3 + space * 2, mMergeCircle.point.y - mMergeCircle.r / 2 + 5);
+		noStroke();
+		text(percentageOfSpeak.toFixed(2).toString() + " %", mMergeCircle.point.x + mMergeCircle.r / 3 + space * 2 + 20, mMergeCircle.point.y - mMergeCircle.r / 2 + 5 + txtSize/3);
+	}
 }
 
 async function draw() {
@@ -325,6 +348,9 @@ async function draw() {
 	}
 	if(anim_count < anim_speed) {
 		anim_count += 1;
+		if(anim_count + 1 == anim_speed){
+			anim_Vectors = [anim_Vectors[anim_Vectors.length - 1], anim_Vectors[anim_Vectors.length-2]];
+		}
 		background("#FDFBF5");
 		animateCircles();
 	}
@@ -343,11 +369,23 @@ async function draw() {
 	}
 	else {
 		background("#FDFBF5");
+
+		fill(255, 255, 255);
+		stroke(male_color);
+		circle(mMergeCircle.point.x, mMergeCircle.point.y, mMergeCircle.r+ 10);
+
+		noStroke();
 		fill(male_color);
-		circle(mMergeCircle.point.x, mMergeCircle.point.y, mMergeCircle.r / 2);
+		circle(mMergeCircle.point.x, mMergeCircle.point.y, mMergeCircle.r);
+
+		fill(255, 255, 255);
+		stroke(female_color);
+		circle(fMergeCircle.point.x, fMergeCircle.point.y, fMergeCircle.r + 10);
+
+		noStroke();
 		fill(female_color);
-		circle(fMergeCircle.point.x, fMergeCircle.point.y, fMergeCircle.r / 2);
+		circle(fMergeCircle.point.x, fMergeCircle.point.y, fMergeCircle.r);
+
 		mouseOverLegends();
-		noLoop();
 	}
 }
