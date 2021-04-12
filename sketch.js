@@ -2,17 +2,20 @@ let tablesYear;
 let tablesMonth;
 let table;
 let glob_table;
-let yearCount = 0;
+let frameRateVal = 40;
+let year = 5;
 let channel = -1;
 let anim_count = 1;
-let anim_speed = 100;
+let anim_speed = frameRateVal * 2;
 let anim_delay_spent = 0;
-let anim_delay_before_start = 80;
+let anim_delay_before_start = Math.floor(frameRateVal * 3.5);
 let endAnim_count = 0;
-let endAnim_speed = 100;
+let endAnim_speed = frameRateVal * 2;
 let endAnim_delay_spent = 0;
-let endAnim_delay_before_start = 80;
-let anim_Vectors = []
+let endAnim_delay_before_start = Math.floor(frameRateVal);
+let anim_Vectors = [];
+let fMergeCircle;
+let mMergeCircle;
 let space_between_chart = 50;
 let rect_width = 35;
 let male_color = "#25696B";
@@ -86,7 +89,7 @@ function setup() {
 	new p5(glob, 'GLOBAL_GRAPH');
     let canvas = createCanvas(screen.width , 400);
     canvas.parent('sketch');
-    frameRate(40);
+    frameRate(frameRateVal);
     noStroke();
     changeChannel('TF1');
 }
@@ -112,8 +115,8 @@ function sideLegends(x, y, size, p, dateFirst, dateLast){
     p.fill("#313033")
     let txtY = y + 15;
     p.textSize(20);
-	p.textFont("brandon-grotesque")
-	p.textStyle(BOLD)
+	p.textFont("brandon-grotesque");
+	p.textStyle(BOLD);
     p.text('2010', x - 60, txtY);
     p.text('2019', x + size + 5, txtY);
 }
@@ -123,9 +126,9 @@ function legends(x, y, p){
     p.square(x, y, 20);
 	p.fill(male_color);
 	p.square(x, y + 30, 20);
-	p.fill("#313033")
+	p.fill("#313033");
 	p.textSize(16);
-	p.textFont("brandon-grotesque")
+	p.textFont("brandon-grotesque");
 	p.text('Femmes', x + 30, y + 15);
 	p.text('Hommes', x + 30, y + 45);
 }
@@ -159,7 +162,7 @@ arrowNext.addEventListener('click',()=>changeIndex(1));
 
 function listDurationOfYear(table, year){
     let duration = [[],[]];
-    for(let i = year * 12; i < ((year + 1) * 12); ++i){
+    for(let i = year * 12; i < ((year + 1) * 12) && i < table.getRowCount(); ++i){
         duration[0].push(table.getRow(i).get('male_duration'));
         duration[1].push(table.getRow(i).get('female_duration'));
     }
@@ -234,8 +237,14 @@ function computeAnimVectors(circles){
 			mSumCircle.r += circles[i].r;
 		}
 	}
+	if(year == 9){
+		mSumCircle.r = mSumCircle.r * 4
+		fSumCircle.r = fSumCircle.r * 4
+	}
 	vectors.push([mSumCircle, new Vector(0, 0, 1)]);
 	vectors.push([fSumCircle, new Vector(0, 0, 1)]);
+	fMergeCircle = fSumCircle;
+	mMergeCircle = mSumCircle;
 	anim_Vectors = vectors;
 	return vectors;
 }
@@ -284,9 +293,30 @@ function reset(){
 	anim_count = 1;
 }
 
+function mouseOverLegends(){
+	textSize(35);
+	textFont("brandon-grotesque");
+	textStyle(BOLD);
+	let space = 50;
+	fill(female_color);
+	let percentageOfSpeak = 100 * fMergeCircle.r / (fMergeCircle.r + mMergeCircle.r);
+	strokeWeight(1);
+	stroke(female_color);
+	line(mMergeCircle.point.x, mMergeCircle.point.y, mMergeCircle.point.x + mMergeCircle.r/4 + space, mMergeCircle.point.y);
+	noStroke();
+	text(percentageOfSpeak.toFixed(2).toString() + " %", mMergeCircle.point.x + mMergeCircle.r/4 + space, mMergeCircle.point.y);
+	fill(male_color);
+	percentageOfSpeak = 100 * mMergeCircle.r / (fMergeCircle.r + mMergeCircle.r);
+	strokeWeight(1);
+	stroke(male_color);
+	line(mMergeCircle.point.x,mMergeCircle.point.y - mMergeCircle.r/4 + 5, mMergeCircle.point.x + mMergeCircle.r/3 + space * 2, mMergeCircle.point.y - mMergeCircle.r/4 + 5);
+	noStroke();
+	text(percentageOfSpeak.toFixed(2).toString() + " %", mMergeCircle.point.x + mMergeCircle.r/3 + space * 2, mMergeCircle.point.y - mMergeCircle.r/4 + 5);
+}
+
 async function draw() {
 	if(anim_Vectors.length == 0){
-		let circles = drawMonthGraph(table, 1);
+		let circles = drawMonthGraph(table, year);
 		computeAnimVectors(circles);
 	}
 	if(anim_delay_spent < anim_delay_before_start){
@@ -298,7 +328,7 @@ async function draw() {
 		background("#FDFBF5");
 		animateCircles();
 	}
-	else{
+	else if(endAnim_count != endAnim_speed){
 		if(endAnim_delay_spent == 0){
 			computeEndAnimVec();
 		}
@@ -309,9 +339,15 @@ async function draw() {
 		background("#FDFBF5");
 		animateCircles();
 		endAnim_count += 1;
-		if(endAnim_count == endAnim_speed){
-			reset();
-			noLoop();
-		}
+		return;
+	}
+	else {
+		background("#FDFBF5");
+		fill(male_color);
+		circle(mMergeCircle.point.x, mMergeCircle.point.y, mMergeCircle.r / 2);
+		fill(female_color);
+		circle(fMergeCircle.point.x, fMergeCircle.point.y, fMergeCircle.r / 2);
+		mouseOverLegends();
+		noLoop();
 	}
 }
