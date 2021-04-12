@@ -113,11 +113,11 @@ strong{
 }
 
 .woman{
-    color:#FFD95C;
+    background-color: #FFD95C;
 }
 
 .man{
-    color: #25696B;
+    background-color: #7BCBCE;
 }
 .ancre{
     cursor:pointer;
@@ -153,7 +153,7 @@ strong{
     display:flex;
     justify-content: center;
     align-items: center;
-    padding-top:80px;
+    padding-top:50px;
     padding-left:140px;
 }
 .explanation p{
@@ -221,4 +221,61 @@ strong{
 .is-active > .slide-chaine{
     filter: grayscale(0%);
     opacity:1;
+}
+
+.dots{
+    position:relative;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width:50%;
+    text-align: center;
+    margin-bottom:80px;
+    margin-left:auto;
+    margin-right:auto;
+
+}
+
+.line{
+    position:absolute;
+    top:7px;
+    left:10px;
+    height:2px;
+    width:655px;
+    background-color:#E9E9E9;
+    z-index:-1;
+}
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #373639;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom:5px;
+  }
+
+.date{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.date p{
+    font-family: brandon-grotesque, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size:16px;
+    color:#222123;
+}
+
+.active, .dot:hover {
+    background-color: #D3545A;
+}
+
+.p-active{
+    font-weight:600 !important;
+    color:#D3545A !important;
 }
