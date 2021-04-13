@@ -13,7 +13,6 @@ const section = document.querySelector('#graph')
 
 ancre.addEventListener('click',()=>{
     section.scrollIntoView({ block: 'end',  behavior: 'smooth' })
-    console.log('hello')
 })
 
 // Variables
