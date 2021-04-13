@@ -6,6 +6,16 @@ function main(df){
 
 //var df = DataFrame.fromCSV('data/global.csv').then(df => main(df)
 
+//Scroll smooth
+
+const ancre = document.querySelector('.ancre');
+const section = document.querySelector('#graph')
+
+ancre.addEventListener('click',()=>{
+    section.scrollIntoView({ block: 'end',  behavior: 'smooth' })
+    console.log('hello')
+})
+
 // Variables
 
 const dot1 = document.querySelector('.dot-1');
