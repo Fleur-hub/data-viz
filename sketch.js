@@ -3,12 +3,12 @@ let tablesMonth;
 let table;
 let glob_table;
 let frameRateVal = 40;
-let year = 5;
+let year = '2010';
 let channel = -1;
 let anim_count = 1;
 let anim_speed = frameRateVal * 2;
 let anim_delay_spent = 0;
-let anim_delay_before_start = Math.floor(frameRateVal * 3.5);
+let anim_delay_before_start = Math.floor(frameRateVal * 2.5);
 let endAnim_count = 0;
 let endAnim_speed = frameRateVal * 2;
 let endAnim_delay_spent = 0;
@@ -133,6 +133,13 @@ function legends(x, y, p){
 	p.text('Hommes', x + 30, y + 45);
 }
 
+function changeYear(newYear){
+	year = newYear;
+	background("#FDFBF5");
+	reset();
+	loop();
+}
+
 async function changeChannel(newChannel){
 	channel = newChannel;
 	table = loadTable('data/month/'.concat(newChannel).concat(".csv"), 'csv', 'header', ()=>{background("#FDFBF5");reset();loop();});
@@ -162,9 +169,10 @@ arrowNext.addEventListener('click',()=>changeIndex(1));
 
 function listDurationOfYear(table, year){
     let duration = [[],[]];
-    for(let i = year * 12; i < ((year + 1) * 12) && i < table.getRowCount(); ++i){
-        duration[0].push(table.getRow(i).get('male_duration'));
-        duration[1].push(table.getRow(i).get('female_duration'));
+    let rows = table.matchRows(year.concat('.*'), 'date');
+    for(let i = 0; i < rows.length; ++i){
+        duration[0].push(rows[i].get('male_duration'));
+        duration[1].push(rows[i].get('female_duration'));
     }
     return duration;
 }
@@ -204,7 +212,7 @@ function drawMonthGraph(table, year) {
     //let canvasMonth = createCanvas(screenWidth, 400);
     //canvasMonth.position(windowWidth, 500);
 	let durationLst = listDurationOfYear(table, year);
-	let constraint = new Constraint(300, screen.width - 60, 60, 340, 1/50);
+	let constraint = new Constraint(300, screen.width - 100, 60, 340, 1/50);
     // populate circles array
     // brute force method continues until # of circles target is reached
 	let circles = generateCircleCoordinate([], durationLst[0], 'm', constraint);
@@ -340,6 +348,19 @@ function mouseOverLegends(){
 async function draw() {
 	if(anim_Vectors.length == 0){
 		let circles = drawMonthGraph(table, year);
+		if(circles.length == 0){
+			let txtSize = 35;
+			noStroke();
+			textAlign(CENTER);
+			textSize(txtSize);
+			textFont("brandon-grotesque");
+			textStyle(BOLD);
+			fill("#424044");
+			text("Pas de données", screen.width/2, 200);
+			noLoop();
+			textAlign(LEFT);
+			return;
+		}
 		computeAnimVectors(circles);
 	}
 	if(anim_delay_spent < anim_delay_before_start){
