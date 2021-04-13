@@ -300,5 +300,14 @@ strong{
         padding-left:140px;
     }
 
+    .line{
+        position:absolute;
+        top:7px;
+        left:10px;
+        height:2px;
+        width:695px;
+        background-color:#E9E9E9;
+        z-index:-1;
+    }
 
 }
