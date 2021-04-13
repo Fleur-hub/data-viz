@@ -282,6 +282,15 @@ strong{
 
 @media screen and (min-width: 1400px) and (max-width: 1920px){ 
 
+
+    .intro{
+        display:flex;
+        flex-direction:column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 300px;
+    }
+
     .explanation{
         margin-bottom:20px;
         display:flex;
@@ -290,4 +299,6 @@ strong{
         padding-top:100px;
         padding-left:140px;
     }
+
+
 }
